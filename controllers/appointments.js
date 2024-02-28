@@ -8,7 +8,7 @@ exports.getAppointments=async (req,res,next)=>{
     let query;
     //Generalusers can see only their appointments
     if(req.user.role!=='admin'){
-        query.Appointment.find({user:req.user.id}).populate({path:'camp',select:'name adddress tel'});
+        query=Appointment.find({user:req.user.id}).populate({path:'camp',select:'name adddress tel'});
     }
     else{ //admin
         if(req.params.campId){
