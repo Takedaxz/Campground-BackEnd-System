@@ -66,11 +66,13 @@ exports.addAppointment=async(req,res,next)=>{
         }
         //add userId to req.body
         req.body.user=req.user.id;
-        //Check for existed appointment
-        const existedAppointments=await Appointment.find({user:req.user.id});
-        //If the user is not a admin,they can only create 3 appointments
-        if(existedAppointments.length>=3 && req.usesr.role!=='admin'){
-            return res.status(400).json({success:false,msg:`The user with id ${req.user.id} has already made 3 appointments`});
+        
+        const newStartDate = new Date(req.body.startDate);
+        const newEndDate = new Date(req.body.endDate);
+        const newAppointmentDuration = Math.ceil((newEndDate - newStartDate) / (1000 * 60 * 60 * 24)); // Calculate duration in days
+
+        if (newAppointmentDuration > 3) {
+            return res.status(400).json({ success: false, msg: 'Appointment duration cannot exceed 3 days' });
         }
 
         const appointment=await Appointment.create(req.body);
