@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cookieParser=require('cookie-parser');
 const connectDB = require('./config/db');
+const mongoSanitize=require('express-mongo-sanitize');
 
 //Load env vars
 dotenv.config({path:'./config/config.env'});
@@ -19,13 +20,14 @@ const app=express();
 //Body parser
 app.use(express.json());
 
+app.use(mongoSanitize());
+app.use(cookieParser());
+
 //Mount routers
 app.use('/api/v1/camps',camps);
 app.use('/api/v1/auth',auth);
 app.use('/api/v1/appointments',appointments);
 
-//Cookie Parser
-app.use(cookieParser());
 
 const PORT=process.env.PORT || 5100;
 const server=app.listen(PORT,console.log('Server running in ',process.env.NODE_ENV,' mode on port ',PORT));
