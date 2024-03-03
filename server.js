@@ -3,6 +3,12 @@ const dotenv = require('dotenv');
 const cookieParser=require('cookie-parser');
 const connectDB = require('./config/db');
 const mongoSanitize=require('express-mongo-sanitize');
+const helmet = require('helmet');
+const {xss} = require('express-xss-sanitizer');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
+const cors = require('cors');
+
 
 //Load env vars
 dotenv.config({path:'./config/config.env'});
@@ -14,6 +20,10 @@ connectDB();
 const camps = require('./routes/camps');
 const auth = require('./routes/auth');
 const appointments=require('./routes/appointments');
+const limiter = rateLimit({
+    windowMs: 10*60*1000, //10 mins
+    max: 100
+});
 
 const app=express();
 
@@ -22,6 +32,13 @@ app.use(express.json());
 
 app.use(mongoSanitize());
 app.use(cookieParser());
+app.use(helmet());
+//Prevent XSS attacks
+app.use(xss());
+app.use(limiter);
+app.use(hpp());
+//Enable CORS
+app.use(cors());
 
 //Mount routers
 app.use('/api/v1/camps',camps);

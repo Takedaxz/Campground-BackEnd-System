@@ -14,7 +14,8 @@ const CampSchema=new mongoose.Schema({
     },
     tel:{
         type:String,
-        required:[true,'Please add telephone number']
+        required:[true,'Please add telephone number'],
+        maxlength : 10
     }
 },{
     toJSON:{virtuals:true},

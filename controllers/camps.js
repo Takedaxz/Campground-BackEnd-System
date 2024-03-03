@@ -1,5 +1,4 @@
 const Camp=require('../models/Camp');
-const campGround=require('../models/CampGround');
 //@desc     Get all camps
 //@route    GET /api/v1/camps
 //@access   Public
@@ -124,16 +123,4 @@ exports.deleteCamp=async(req,res,next)=>{
     catch(err){
         res.status(400).json({success:false});
     }
-};
-
-//@desc     Get campgrounds
-//@route    GET /api/v1/camps/campGrounds/
-//@access   Public
-exports.getCampGrounds=(req,res,next)=>{
-    campGround.getAll((err,data)=>{
-        if(err)
-            res.status(500).send({message:err.message || "Some error occured while retrieving Campgrounds."});
-        else
-            res.send(data);
-    });
 };
