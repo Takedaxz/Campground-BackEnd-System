@@ -1,11 +1,11 @@
 const mongoose=require('mongoose');
 
-const AppointmentSchema=new mongoose.Schema({
-    startDate:{
+const ReservationSchema=new mongoose.Schema({
+    checkInDate:{
         type:Date,
         required:true
     },
-    endDate:{
+    checkOutDate:{
         type:Date,
         required:true
     },
@@ -25,4 +25,4 @@ const AppointmentSchema=new mongoose.Schema({
     }
 });
 
-module.exports=mongoose.model('Appointment',AppointmentSchema);
+module.exports=mongoose.model('Reservation',ReservationSchema);
