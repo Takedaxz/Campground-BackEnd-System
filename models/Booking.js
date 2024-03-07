@@ -1,6 +1,6 @@
 const mongoose=require('mongoose');
 
-const ReservationSchema=new mongoose.Schema({
+const BookingSchema=new mongoose.Schema({
     checkInDate:{
         type:Date,
         required:true
@@ -14,9 +14,9 @@ const ReservationSchema=new mongoose.Schema({
         ref:'User',
         required:true
     },
-    camp:{
+    campground:{
         type:mongoose.Schema.ObjectId,
-        ref:'Camp',
+        ref:'Campground',
         required:true
     },
     createdAt:{
@@ -25,4 +25,4 @@ const ReservationSchema=new mongoose.Schema({
     }
 });
 
-module.exports=mongoose.model('Reservation',ReservationSchema);
+module.exports=mongoose.model('Booking',BookingSchema);

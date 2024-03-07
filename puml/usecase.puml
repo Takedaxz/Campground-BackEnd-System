@@ -1,0 +1,52 @@
+@startuml useCaseDiagram
+
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle Hollow
+
+actor User
+actor Admin
+actor Visitor #pink;line:red;text:red;line.dashed
+
+rectangle "Reservation Management" {
+  User --> (Get Reservations)
+  User --> (Get Reservation)
+  User -->(Get Reservation for Camp)
+  User --> (Add Reservation)
+  User --> (Update Reservation)
+  User --> (Delete Reservation)
+  (Get Reservations) <-- Admin
+  (Get Reservation) <-- Admin
+  (Get Reservation for Camp) <-- Admin
+  (Add Reservation) <-- Admin
+  (Update Reservation) <-- Admin
+  (Delete Reservation) <-- Admin
+  (Delete Reservations) <-- Admin
+}
+
+rectangle "Authentication" {
+  User --> (Register)
+  User --> (Login)
+  User --> (Get Me)
+  User --> (Logout)
+  (Register) <-- Admin
+  (Login) <-- Admin
+  (Get Me) <-- Admin
+  (Logout) <-- Admin
+}
+
+rectangle "Camp Management" {
+  User --> (Get Camps)
+  User --> (Get Camp)
+  Visitor --> (Get Camps)
+  Visitor --> (Get Camp)
+  (Get Camps) <-- Admin
+  (Get Camp) <-- Admin
+  (Create Camp) <-- Admin
+  (Update Camp) <-- Admin
+  (Delete Camp) <-- Admin
+}
+@enduml
+
+
+

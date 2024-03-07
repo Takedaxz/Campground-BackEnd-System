@@ -1,0 +1,27 @@
+@startuml delete-bookings
+
+header Booking Sequence Diagram
+footer Page %page% of %lastpage%
+title "Manage Booking (Delete)"
+
+participant "Client" as client
+participant "<<javaScript>>\n:server" as server
+participant "<<router>>\n:bookings" as routerBookings
+participant "<<middleware>>\n:auth" as middlewareAuth
+participant "<<controllers>>\n:bookings" as controllersBookings
+participant "<<model>>\n:Booking" as modelBooking
+database "<<MongoDB>>\n:bookings" as BookingsDatabase
+
+client->server ++:req.delete('/bookings/:id')
+server->routerBookings ++:app.use('/bookings', bookings)
+routerBookings -> middlewareAuth ++: protect()
+middlewareAuth -> controllersBookings ++:deleteBooking()
+controllersBookings -> modelBooking ++: findById(req.params.id)
+modelBooking ->BookingsDatabase ++: BookingSchema
+BookingsDatabase --> modelBooking --: Booking
+controllersBookings <-- modelBooking --: Booking
+controllersBookings --> modelBooking ++: deleteOne()
+modelBooking -> BookingsDatabase ++: BookingSchema
+controllersBookings->client --:response
+
+@enduml

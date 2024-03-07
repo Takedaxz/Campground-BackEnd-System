@@ -1,0 +1,98 @@
+@startuml classdiagram
+left to right direction
+class "CampgroundBookingApp" <<Application>> {
+}
+
+class "<<Resource>>\nAuth" {
+}
+
+class "<<Resource>>\nLogin" {
+  <<POST>> + login() : TOKEN
+}
+
+class "<<Resource>>\nRegister" {
+  <<POST>> + register() : TOKEN
+}
+
+class "<<Resource>>\nGetme" {
+  <<GET>> + getMe() : User
+}
+
+class "<<Resource>>\nLogout" {
+  <<POST>> + logout() : Void
+}
+
+
+class "<<Model>>\nUser" {
+  - username: String
+  - tel: String
+  - email: String
+  - role: String
+  - password: String
+  - createdAt: Date
+}
+
+class "<<Model>>\nBooking" {
+  - checkInDate: Date
+  - checkOutDate: Date
+  - user: ObjectId
+  - campground: ObjectId
+  - createdAt: Date
+}
+
+class "<<Model>>\nCampground" {
+  - name: String
+  - address: String
+  - tel: String
+}
+
+class "<<Resource>>\nBooking" {
+    <<GET>> + getBooking() : Booking
+    <<PUT>> + updateBooking() : Booking
+    <<DELETE>> + deleteBooking() : void
+}
+
+class "<<Resource>>\nBookings" {
+  <<GET>> + getBookings : Bookings
+  <<POST>> + addBooking() : Booking
+  <<DELETE>> + deleteBookings() : void
+}
+
+
+class "<<Resource>>\nCampground" {
+    <<GET>> + getCampground() : Campground
+    <<PUT>> + updateCampground() : Campground
+    <<DELETE>> + deleteCampground() : void
+}
+
+class "<<Resource>>\nCampgrounds" {
+  <<GET>> + getCampgrounds : Campgrounds
+  <<POST>> + createCampground() : Campground
+}
+
+"CampgroundBookingApp" --> "<<Resource>>\nAuth" : <<Path>>\n/api/v1/auth
+"CampgroundBookingApp" --> "<<Resource>>\nCampgrounds" : <<Path>>\n/api/v1/campgrounds
+"CampgroundBookingApp" --> "<<Resource>>\nBookings" : <<Path>>\n/api/v1/bookings
+
+"<<Resource>>\nAuth" --> "<<Resource>>\nLogin" : <<Path>>\n/login
+"<<Resource>>\nAuth" --> "<<Resource>>\nRegister"  : <<Path>>\n/register
+"<<Resource>>\nAuth" --> "<<Resource>>\nGetme"  : <<Path>>\n/getme
+"<<Resource>>\nAuth" --> "<<Resource>>\nLogout"  : <<Path>>\n/logout
+
+
+"<<Resource>>\nLogin" --> "<<Model>>\nUser" : <<Use>>
+"<<Resource>>\nRegister" --> "<<Model>>\nUser" : <<Use>>
+"<<Resource>>\nGetme" --> "<<Model>>\nUser" : <<Use>>
+"<<Resource>>\nLogout" --> "<<Model>>\nUser" : <<Use>>
+
+"<<Resource>>\nBookings" --> "<<Resource>>\nBooking" : <<Path>>\n/{bookingId}
+"<<Resource>>\nBooking" --> "<<Model>>\nBooking" : <<Use>>
+"<<Resource>>\nBookings" --> "<<Model>>\nBooking" : <<Use>>
+
+
+"<<Resource>>\nCampgrounds" --> "<<Resource>>\nCampground" : <<Path>>\n/{campgroundId}
+"<<Resource>>\nCampground" --> "<<Model>>\nCampground" : <<Use>>
+"<<Resource>>\nCampgrounds" --> "<<Model>>\nCampground" : <<Use>>
+"<<Resource>>\nCampground" --> "<<Resource>>\nBookings" : <<Path>>\n/bookings
+
+@enduml

@@ -22,9 +22,9 @@ dotenv.config({path:'./config/config.env'});
 connectDB();
 
 //Route files
-const camps = require('./routes/camps');
+const campgrounds = require('./routes/campgrounds');
 const auth = require('./routes/auth');
-const reservations = require('./routes/reservations');
+const bookings = require('./routes/bookings');
 const limiter = rateLimit({
     windowMs: 10*60*1000, //10 mins
     max: 500
@@ -49,9 +49,9 @@ app.use(cookieParser());
 
 
 //Mount routers
-app.use('/api/v1/camps',camps);
+app.use('/api/v1/campgrounds',campgrounds);
 app.use('/api/v1/auth',auth);
-app.use('/api/v1/reservations',reservations);
+app.use('/api/v1/bookings',bookings);
 
 //Sets the port for the Express server. It either uses the value of the PORT environment variable or defaults to port 5100
 const PORT=process.env.PORT || 5100;
